@@ -27,8 +27,8 @@ app = FastAPI(
 )
 
 # Set up Jinja2 templates for HTML rendering (looks for 'templates' directory)
-# NOTE: You must ensure your 'index.html' is in a folder named 'src/templates'
-templates = Jinja2Templates(directory="src/templates")
+# NOTE: You must ensure your 'index.html' is in same directory
+templates = Jinja2Templates(directory=".")
 
 # --- ROBUST FILE PATH RESOLUTION ---
 # Path to the official PDF template

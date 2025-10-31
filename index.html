@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAF 1206 Award Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'airforce-blue': '#003087',
+                        'airforce-gray': '#BCCAD6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Ensures the container respects the screen height */
+        #app-container {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans antialiased">
+    <div id="app-container" class="flex flex-col items-center justify-center p-4 md:p-8">
+        
+        <!-- Header -->
+        <header class="w-full max-w-4xl mb-8 text-center">
+            <h1 class="text-4xl font-extrabold text-airforce-blue mb-2">
+                DAF 1206 Award Writer
+            </h1>
+            <p class="text-gray-600">Automate your award package writing using Gemini AI and generate the DAF 1206 PDF.</p>
+        </header>
+
+        <!-- Main Form Container -->
+        <form action="/generate" method="POST" class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-10 border border-airforce-gray">
+            
+            <h2 class="text-2xl font-bold text-airforce-blue mb-6 border-b pb-2">1. AI Prompt & Accomplishments</h2>
+
+            <!-- AI Prompt Section -->
+            <div class="mb-6">
+                <label for="ai_prompt" class="block text-sm font-medium text-gray-700 mb-2">
+                    AI Prompt (Describe the member's accomplishments):
+                </label>
+                <textarea 
+                    id="ai_prompt" 
+                    name="ai_prompt" 
+                    rows="4" 
+                    required
+                    placeholder="E.g., Write an award for TSgt Smith, who saved $50K by fixing a power supply and led a successful base clean-up project."
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-airforce-blue focus:border-airforce-blue transition duration-150 ease-in-out"
+                ></textarea>
+                <p class="text-xs text-gray-500 mt-1">
+                    **Tip:** To manually split the text onto page 2 of the DAF 1206, include the word **BREAK** in your prompt or the AI output.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Award Type -->
+                <div>
+                    <label for="award" class="block text-sm font-medium text-gray-700 mb-1">Award Type (Block 1)</label>
+                    <select id="award" name="award" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="Quarterly">Quarterly</option>
+                        <option value="Annual">Annual</option>
+                        <option value="Decorations">Decorations</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <!-- Category -->
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category (Block 2)</label>
+                    <select id="category" name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="Airman">Airman</option>
+                        <option value="NCO">NCO</option>
+                        <option value="SNCO">SNCO</option>
+                        <option value="CGO">CGO</option>
+                        <option value="FGO">FGO</option>
+                        <option value="Civilian">Civilian</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-airforce-blue mb-6 border-b pb-2">2. Nominee Data</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <!-- Rank -->
+                <div>
+                    <label for="nom_rank" class="block text-sm font-medium text-gray-700 mb-1">Rank (Block 3)</label>
+                    <input type="text" id="nom_rank" name="nom_rank" placeholder="TSgt" value="TSgt" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- First Name -->
+                <div>
+                    <label for="nom_first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                    <input type="text" id="nom_first_name" name="nom_first_name" placeholder="John" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- MI -->
+                <div>
+                    <label for="nom_middle_initial" class="block text-sm font-medium text-gray-700 mb-1">M.I.</label>
+                    <input type="text" id="nom_middle_initial" name="nom_middle_initial" placeholder="T" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- Last Name -->
+                <div>
+                    <label for="nom_last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                    <input type="text" id="nom_last_name" name="nom_last_name" placeholder="Smith" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+            </div>
+
+            <!-- Duty Title / Agency / Period -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="duty_title" class="block text-sm font-medium text-gray-700 mb-1">Duty Title (Block 5)</label>
+                    <input type="text" id="duty_title" name="duty_title" placeholder="Flight Chief" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div>
+                    <label for="agency" class="block text-sm font-medium text-gray-700 mb-1">MAJCOM/FOA/DRU (Block 4)</label>
+                    <input type="text" id="agency" name="agency" placeholder="AFGSC / 8th CS" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div>
+                    <label for="period" class="block text-sm font-medium text-gray-700 mb-1">Award Period (Block 6)</label>
+                    <input type="text" id="period" name="period" placeholder="Jan 23 - Dec 23" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+            </div>
+
+            <!-- Address / Telephone -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Office Symbol & Address (Block 7)</label>
+                    <input type="text" id="address" name="address" placeholder="8 CS/SCOK, Bld 1234, Base Name, CO" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div>
+                    <label for="nom_telephone" class="block text-sm font-medium text-gray-700 mb-1">Nominee Telephone (Block 8)</label>
+                    <input type="tel" id="nom_telephone" name="nom_telephone" placeholder="555-555-5555" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-airforce-blue mb-6 border-b pb-2">3. Commander/Approving Official Data (Block 11)</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+                <!-- Rank -->
+                <div>
+                    <label for="com_rank" class="block text-sm font-medium text-gray-700 mb-1">Rank</label>
+                    <input type="text" id="com_rank" name="com_rank" placeholder="Lt Col" value="Lt Col" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- First Name -->
+                <div>
+                    <label for="com_first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                    <input type="text" id="com_first_name" name="com_first_name" placeholder="Sarah" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- MI -->
+                <div>
+                    <label for="com_middle_initial" class="block text-sm font-medium text-gray-700 mb-1">M.I.</label>
+                    <input type="text" id="com_middle_initial" name="com_middle_initial" placeholder="A" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- Last Name -->
+                <div>
+                    <label for="com_last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                    <input type="text" id="com_last_name" name="com_last_name" placeholder="Jones" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <!-- Telephone -->
+                <div>
+                    <label for="com_telephone" class="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
+                    <input type="tel" id="com_telephone" name="com_telephone" placeholder="555-123-4567" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+            </div>
+
+
+            <!-- Submission Button -->
+            <button 
+                type="submit" 
+                class="w-full flex items-center justify-center space-x-2 px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-lg text-white bg-airforce-blue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-airforce-blue transition duration-150 ease-in-out transform hover:scale-[1.01] active:scale-[0.99]"
+            >
+                <!-- Icon for Download -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Generate Award & Download PDF</span>
+            </button>
+            
+        </form>
+
+    </div>
+</body>
+</html>
