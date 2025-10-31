@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:a373820badd7816be7ae7fbd245a79351bff9ccb556ec180aa22171dc5ab7006"
+content_hash = "sha256:e15ac3fc985322a73359a115188804f896dfa12246eac9799a1ece22ecf83efc"
 
 [[metadata.targets]]
 requires_python = "==3.12.*"
@@ -435,6 +435,17 @@ files = [
     {file = "pydantic_core-2.41.4-cp312-cp312-win_amd64.whl", hash = "sha256:d682cf1d22bab22a5be08539dca3d1593488a99998f9f412137bc323179067ff"},
     {file = "pydantic_core-2.41.4-cp312-cp312-win_arm64.whl", hash = "sha256:833eebfd75a26d17470b58768c1834dfc90141b7afc6eb0429c21fc5a21dcfb8"},
     {file = "pydantic_core-2.41.4.tar.gz", hash = "sha256:70e47929a9d4a1905a67e4b687d5946026390568a8e952b92824118063cee4d5"},
+]
+
+[[package]]
+name = "python-multipart"
+version = "0.0.20"
+requires_python = ">=3.8"
+summary = "A streaming multipart parser for Python"
+groups = ["default"]
+files = [
+    {file = "python_multipart-0.0.20-py3-none-any.whl", hash = "sha256:8a62d3a8335e06589fe01f2a3e178cdcc632f3fbe0d492ad9ee0ec35aab1f104"},
+    {file = "python_multipart-0.0.20.tar.gz", hash = "sha256:8dd0cab45b8e23064ae09147625994d090fa46f5b0d1e13af944c331a7fa9d13"},
 ]
 
 [[package]]
