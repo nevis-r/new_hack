@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAF 1206 Award Generator</title>
+    <title>DAF 1206 Generator</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,18 +36,18 @@
             <h1 class="text-4xl font-extrabold text-airforce-blue mb-2">
                 DAF 1206 Award Writer
             </h1>
-            <p class="text-gray-600">Automate your award package writing using Gemini AI and generate the DAF 1206 PDF.</p>
+            <p class="text-gray-600">Automate your award package writing using AI and generate a completed DAF 1206 PDF.</p>
         </header>
 
         <!-- Main Form Container -->
         <form action="/generate" method="POST" class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-10 border border-airforce-gray">
             
-            <h2 class="text-2xl font-bold text-airforce-blue mb-6 border-b pb-2">1. AI Prompt & Accomplishments</h2>
+            <h2 class="text-2xl font-bold text-airforce-blue mb-6 border-b pb-2">1. Accomplishments</h2>
 
             <!-- AI Prompt Section -->
             <div class="mb-6">
                 <label for="ai_prompt" class="block text-sm font-medium text-gray-700 mb-2">
-                    AI Prompt (Describe the member's accomplishments):
+                    Describe the member's accomplishments:
                 </label>
                 <textarea 
                     id="ai_prompt" 
@@ -58,7 +58,7 @@
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-airforce-blue focus:border-airforce-blue transition duration-150 ease-in-out"
                 ></textarea>
                 <p class="text-xs text-gray-500 mt-1">
-                    **Tip:** To manually split the text onto page 2 of the DAF 1206, include the word **BREAK** in your prompt or the AI output.
+                    **Tip:** Simply enter the members accomplishments in any text format with no character limit.
                 </p>
             </div>
 
@@ -66,12 +66,7 @@
                 <!-- Award Type -->
                 <div>
                     <label for="award" class="block text-sm font-medium text-gray-700 mb-1">Award Type (Block 1)</label>
-                    <select id="award" name="award" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                        <option value="Quarterly">Quarterly</option>
-                        <option value="Annual">Annual</option>
-                        <option value="Decorations">Decorations</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    <input type="text" id="award" name="award" placeholder="16 AF 1st Quarter" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
                 </div>
                 <!-- Category -->
                 <div>
@@ -180,7 +175,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <span>Generate Award & Download PDF</span>
+                <span>Generate Completed 1206 & Download PDF</span>
             </button>
             
         </form>
