@@ -231,6 +231,8 @@ class AwardWriter:
                     # 2. Remove SigFlags (prevents PDF readers from assuming the document is digitally signed/finalized)
                     if "/SigFlags" in acroform_dict:
                         del acroform_dict["/SigFlags"]
+                        
+                    del pdf.Root["/AcroForm"]
                 
                 # Save to the in-memory buffer
                 pdf.save(output_buffer)
