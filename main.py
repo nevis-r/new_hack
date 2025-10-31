@@ -221,19 +221,7 @@ class AwardWriter:
                     if name == b"datasets":
                         stream.write(new_datasets)
                         break
-
-                # Removing /Perms and /SigFlags often prevents the form from being marked as finalized/read-only by the viewer/library.
-                if "/AcroForm" in pdf.Root:
-                    acroform_dict = pdf.Root["/AcroForm"]
-                    # 1. Remove Perms dict (often locks editing after filling)
-                    if "/Perms" in acroform_dict:
-                        del acroform_dict["/Perms"]
-                    # 2. Remove SigFlags (prevents PDF readers from assuming the document is digitally signed/finalized)
-                    if "/SigFlags" in acroform_dict:
-                        del acroform_dict["/SigFlags"]
-                        
-                    del pdf.Root["/AcroForm"]
-                
+        
                 # Save to the in-memory buffer
                 pdf.save(output_buffer)
                     
