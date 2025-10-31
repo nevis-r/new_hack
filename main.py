@@ -159,7 +159,7 @@ class AwardWriter:
             with pikepdf.open(self.template_path) as pdf:
                 # --- NEW: Remove Security Restrictions (Passwords, Permissions) ---
                 # This ensures the final PDF is fully editable, printable, and copyable.
-                pdf.remove_security()
+                pdf.security = None
 
                 acroform = pdf.Root.get("/AcroForm", None)
                 if acroform is None:
