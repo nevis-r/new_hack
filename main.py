@@ -139,18 +139,6 @@ class AwardWriter:
             if accomplishments_1 and accomplishments_2:
                 return accomplishments_1, accomplishments_2
 
-        # 2. Fallback to automated midpoint splitting
-        mid_point = len(accomplishments) // 2
-        split_index = accomplishments.rfind('.', 0, mid_point)
-
-        if split_index != -1 and split_index > 100:
-            accomplishments_1 = accomplishments[:split_index + 1].strip()
-            accomplishments_2 = accomplishments[split_index + 1:].strip()
-        else:
-            # If no suitable sentence break is found, just split in the middle
-            accomplishments_1 = accomplishments[:mid_point].strip()
-            accomplishments_2 = accomplishments[mid_point:].strip()
-
         return accomplishments_1, accomplishments_2
 
     def write_pdf(self, data: FormData, accomplishments_1: str, accomplishments_2: str, output_buffer: BytesIO):
@@ -169,6 +157,10 @@ class AwardWriter:
 
         try:
             with pikepdf.open(self.template_path) as pdf:
+                # --- NEW: Remove Security Restrictions (Passwords, Permissions) ---
+                # This ensures the final PDF is fully editable, printable, and copyable.
+                if pdf.is_secured:
+                    pdf.remove_security()
 
                 acroform = pdf.Root.get("/AcroForm", None)
                 if acroform is None:
